@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    component: kubeagent-backup-helper
+  name: cloudcasa-io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    component: kubeagent-backup-helper
+  name: cloudcasa-io
+  namespace: cloudcasa-io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    component: kubeagent-backup-helper
+  name: cloudcasa-io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: cloudcasa-io
+  namespace: cloudcasa-io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudcasa-kubeagent-manager
+  namespace: cloudcasa-io
+  labels:
+    component: cloudcasa-kubeagent-manager
+spec:
+  selector:
+    matchLabels:
+      app: cloudcasa-kubeagent-manager
+  strategy: {}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cloudcasa-kubeagent-manager
+    spec:
+      containers:
+      - image: catalogicsoftware/amds-kagent:latest
+        args: ["/usr/local/bin/kubeagentmanager", "--server_addr", "agent.cloudcasa.io:443", "--tls", "true"]
+        imagePullPolicy: Always
+        name: kubeagentmanager
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:          
+        - mountPath: /scratch
+          name: scratch          
+        env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: AMDS_CLUSTER_ID
+          value: CLUSTERID
+        - name: KUBEMOVER_IMAGE
+          value: catalogicsoftware/amds-kagent:latest
+        - name: DEPLOYMENT_PLATFORM
+          value: "charmed"
+      restartPolicy: Always
+      serviceAccountName: cloudcasa-io
+      volumes:        
+      - emptyDir: {}
+        name: scratch

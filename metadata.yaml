@@ -1,0 +1,18 @@
+# Copyright 2022 Catalogic Software
+# See LICENSE file for licensing details.
+
+name: CloudCasa
+display-name: CloudCasa
+docs: https://discourse.charmhub.io/t/cloudcasa-docs-index/6926
+description: CloudCasa is a powerful and easy-to-use backup service for protecting Kubernetes, cloud databases, and cloud native applications 
+summary: CloudCasa charmed operator
+tags:
+  - cloudcasa 
+containers:
+ cloudcasa:
+   resource: cloudcasa-image
+resources:
+ cloudcasa-image:
+   type: oci-image
+   description: OCI image for cloudcasa-image
+   upstream-source: docker.io/catalogicsoftware/amds-kagent:latest
