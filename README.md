@@ -37,3 +37,7 @@ If there is an issue with the CloudCasa charm, it can be useful to inspect the J
   ```bash
   juju debug-log --replay --include=cloudcasa
   ```
+
+## Documentation
+
+Read the official documentation here: [cloudcasa.io](https://cloudcasa.io)

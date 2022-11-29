@@ -1,4 +1,4 @@
-# Copyright 2022 nitish
+# Copyright 2022 Catalogic Software
 # See LICENSE file for licensing details.
 #
 # Learn more about testing at: https://juju.is/docs/sdk/testing
