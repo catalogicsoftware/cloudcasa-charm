@@ -1,5 +1,5 @@
 #!/bin/sh -e
-# Copyright 2022 nitish
+# Copyright 2022 Catalogic Software
 # See LICENSE file for licensing details.
 
 if [ -z "$VIRTUAL_ENV" -a -d venv/ ]; then
