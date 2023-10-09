@@ -30,7 +30,7 @@ This repository contains a Charm Operator for deploying **CloudCasa** agent in a
     juju deploy --trust cloudcasa
     juju config cloudcasa clusterid=<clusterid>
       ```
-3. Visit www.cloudcasa.io for more information on configuring and using CloudCasa and to create a CloudCasa account.
+3. Visit www.cloudcasa.io for more information on configuring, using CloudCasa and to create a CloudCasa account.
 
 ## Troubleshooting
 If there is an issue with the CloudCasa charm, it can be useful to inspect the Juju logs. To see a complete set of logs for CloudCasa: 
