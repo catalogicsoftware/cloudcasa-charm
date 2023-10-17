@@ -36,7 +36,7 @@ of SAAS version of cloudcasa.
 
 ## Intended use case
 
-Now a days organizations are using kubernates clusters extensivly. Cloudcasa
+Now a days organizations are using kubernetes clusters extensively. Cloudcasa
 provides backup and restore functionality for managed and on-premise kubernetes 
 cluster. Cloudcasa-charm provides the same functionality for charmed kubernetes 
 cluster.
