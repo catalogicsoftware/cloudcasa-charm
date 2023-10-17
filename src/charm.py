@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 TEMPLATE_DIR = "src/templates/"
 
 class CloudcasaCharm(CharmBase):
+    
     """Charm the service."""
     def __init__(self, *args):
         super().__init__(*args)
@@ -74,9 +75,8 @@ class CloudcasaCharm(CharmBase):
         except Exception:
             pass         
 
-        self.unit.status = ActiveStatus()
+        self.unit.status = ActiveStatus()       
         
-
     def _create_kubernetes_resources(self):
         client = Client()
         path = TEMPLATE_DIR + "cluster-register.yaml"
