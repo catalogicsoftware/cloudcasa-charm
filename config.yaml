@@ -4,5 +4,5 @@
 options:
   clusterid:
     default: ""
-    description: clusterid used by custer to get registered
+    description: clusterid used by target custer to get registered
     type: string
