@@ -29,7 +29,6 @@ class CloudcasaCharm(CharmBase):
         self.framework.observe(self.on.config_changed, self._on_config_changed)
         self.framework.observe(self.on.stop, self._on_stop)
 
-
     def _on_cloudcasa_pebble_ready(self, event: WorkloadEvent):
         """Define and start a workload using the Pebble API."""
         # Get a reference the container attribute on the PebbleReadyEvent
@@ -60,7 +59,7 @@ class CloudcasaCharm(CharmBase):
             if con.name == "cloudcasa":
                 kagentimage = con.image
         clusterid = self.config["clusterid"]
-        patch = {"spec":{"template":{"spec":{"containers":[{"image":kagentimage,"args":["/usr/local/bin/kubeagentmanager","--server_addr","agent.cloudcasa.io:443","--tls","true"],"imagePullPolicy":"Always","name":"kubeagentmanager","resources":{"requests":{"memory":"64Mi","cpu":"250m"},"limits":{"memory":"128Mi","cpu":"500m"}},"volumeMounts":[{"mountPath":"/scratch","name":"scratch"}],"env":[{"name":"MY_POD_NAME","valueFrom":{"fieldRef":{"fieldPath":"metadata.name"}}},{"name":"AMDS_CLUSTER_ID","value":clusterid},{"name":"KUBEMOVER_IMAGE","value":kagentimage},{"name":"DEPLOYMENT_PLATFORM","value":"charmed"}]}],"restartPolicy":"Always","serviceAccountName":"cloudcasa-io","volumes":[{"emptyDir":{},"name":"scratch"}]}}}}
+        patch = {"spec": {"template": {"spec": {"containers": [{"image": kagentimage, "args": ["/usr/local/bin/kubeagentmanager", "--server_addr", "agent.cloudcasa.io:443", "--tls", "true"], "imagePullPolicy": "Always", "name": "kubeagentmanager", "resources": {"requests": {"memory": "64Mi", "cpu": "250m"}, "limits": {"memory": "128Mi", "cpu": "500m"}}, "volumeMounts": [{"mountPath": "/scratch", "name": "scratch"}], "env": [{"name": "MY_POD_NAME", "valueFrom": {"fieldRef": {"fieldPath": "metadata.name"}}}, {"name": "AMDS_CLUSTER_ID", "value": clusterid}, {"name": "KUBEMOVER_IMAGE", "value": kagentimage}, {"name": "DEPLOYMENT_PLATFORM", "value": "charmed"}]}], "restartPolicy": "Always", "serviceAccountName": "cloudcasa-io", "volumes": [{"emptyDir": {}, "name": "scratch"}]}}}}
         try:
             client.patch(Deployment, name='cloudcasa-kubeagent-manager', namespace='cloudcasa-io', obj=patch)
             logging.info("cluster id patched with kubeagent")
@@ -136,7 +135,7 @@ class CloudcasaCharm(CharmBase):
                     else:
                         logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
 
-                if obj.kind == "ClusterRoleBinding":     
+                if obj.kind == "ClusterRoleBinding": 
                     if not cloudcasa_crb:
                         logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
                         client.create(obj)
