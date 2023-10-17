@@ -91,35 +91,35 @@ class CloudcasaCharm(CharmBase):
 
             try:
                 cloudcasa_deployment = client.get(Deployment, name="cloudcasa-kubeagent-manager", namespace="cloudcasa-io")
-            except Exception as e:
+            except FileNotFoundError as e:
+                pass
+            except Exception:
                 cloudcasa_deployment = None
                 logger.info("Issue seen in fetching Deployment information")
-            except FileNotFoundError:
-                pass
 
             try:
                 cloudcasa_namespace = client.get(Namespace, name="cloudcasa-io")
-            except Exception as e:
+            except FileNotFoundError as e:
+                pass
+            except Exception:
                 cloudcasa_namespace = None
                 logger.info("Issue seen in fetching Namespace information")
-            except FileNotFoundError:
-                pass
 
             try:
                 cloudcasa_sa = client.get(ServiceAccount, name="cloudcasa-io", namespace="cloudcasa-io")
-            except Exception as e:
-                cloudcasa_sa = None
-                logger.info("Issue seen in fetching ServiceAccount information")                
-            except FileNotFoundError:
+            except FileNotFoundError as e:
                 pass
+            except Exception:
+                cloudcasa_sa = None
+                logger.info("Issue seen in fetching ServiceAccount information")  
 
             try:
                 cloudcasa_crb = client.get(ClusterRoleBinding, name="cloudcasa-io")
-            except Exception as e:
+            except FileNotFoundError as e:
+                pass
+            except Exception:
                 cloudcasa_crb = None
                 logger.info("Issue seen in fetching ClusterRoleBinding information")
-            except FileNotFoundError:
-                pass
 
             for obj in codecs.load_all_yaml(f):
                 if obj.kind == "Namespace":     
