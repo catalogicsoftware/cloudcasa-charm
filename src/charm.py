@@ -2,28 +2,24 @@
 # Copyright 2022 catalogicsoftware
 
 import logging
-from ops.charm import CharmBase
 from ops.main import main
 from ops.model import ActiveStatus, BlockedStatus
 import traceback
 from lightkube import Client, codecs
 from lightkube.resources.core_v1 import Pod, Namespace, ServiceAccount
 from lightkube.core.exceptions import ApiError
-from lightkube.models.meta_v1 import ObjectMeta
+#from lightkube.models.meta_v1 import ObjectMeta
 from lightkube.resources.apps_v1 import Deployment
 from lightkube.resources.rbac_authorization_v1 import ClusterRoleBinding
 from ops.charm import CharmBase, WorkloadEvent
 
 logger = logging.getLogger(__name__)
-
 TEMPLATE_DIR = "src/templates/"
 
 class CloudcasaCharm(CharmBase):
     """Charm the service."""
-
     def __init__(self, *args):
         super().__init__(*args)
-
         self.framework.observe(self.on.install, self._on_install)
         self.framework.observe(self.on.cloudcasa_pebble_ready, self._on_cloudcasa_pebble_ready)
         self.framework.observe(self.on.config_changed, self._on_config_changed)
@@ -63,7 +59,7 @@ class CloudcasaCharm(CharmBase):
         try:
             client.patch(Deployment, name='cloudcasa-kubeagent-manager', namespace='cloudcasa-io', obj=patch)
             logging.info("cluster id patched with kubeagent")
-        except Exception as e:
+        except Exception:
             pass
         self.unit.status = ActiveStatus()
 
@@ -71,11 +67,11 @@ class CloudcasaCharm(CharmBase):
         client = Client()
         try:
             client.delete(ClusterRoleBinding, name="cloudcasa-io")
-        except Exception as e:
+        except Exception:
             pass
         try:
             client.delete(Namespace, name="cloudcasa-io")
-        except Exception as e:
+        except Exception:
             pass         
 
         self.unit.status = ActiveStatus()
@@ -90,7 +86,7 @@ class CloudcasaCharm(CharmBase):
 
             try:
                 cloudcasa_deployment = client.get(Deployment, name="cloudcasa-kubeagent-manager", namespace="cloudcasa-io")
-            except FileNotFoundError as e:
+            except FileNotFoundError:
                 pass
             except Exception:
                 cloudcasa_deployment = None
@@ -98,7 +94,7 @@ class CloudcasaCharm(CharmBase):
 
             try:
                 cloudcasa_namespace = client.get(Namespace, name="cloudcasa-io")
-            except FileNotFoundError as e:
+            except FileNotFoundError:
                 pass
             except Exception:
                 cloudcasa_namespace = None
@@ -106,7 +102,7 @@ class CloudcasaCharm(CharmBase):
 
             try:
                 cloudcasa_sa = client.get(ServiceAccount, name="cloudcasa-io", namespace="cloudcasa-io")
-            except FileNotFoundError as e:
+            except FileNotFoundError:
                 pass
             except Exception:
                 cloudcasa_sa = None
@@ -114,7 +110,7 @@ class CloudcasaCharm(CharmBase):
 
             try:
                 cloudcasa_crb = client.get(ClusterRoleBinding, name="cloudcasa-io")
-            except FileNotFoundError as e:
+            except FileNotFoundError:
                 pass
             except Exception:
                 cloudcasa_crb = None
