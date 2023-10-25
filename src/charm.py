@@ -7,7 +7,7 @@ import traceback
 from lightkube import Client, codecs
 from lightkube.core.exceptions import ApiError
 from lightkube.resources.apps_v1 import Deployment
-from lightkube.resources.core_v1 import Pod, Namespace, ServiceAccount
+from lightkube.resources.core_v1 import Namespace, Pod, ServiceAccount
 # from lightkube.models.meta_v1 import ObjectMeta
 from lightkube.resources.rbac_authorization_v1 import ClusterRoleBinding
 from ops.charm import CharmBase, WorkloadEvent
