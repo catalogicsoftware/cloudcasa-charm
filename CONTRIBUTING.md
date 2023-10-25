@@ -40,7 +40,7 @@ Now a days organizations are using kubernetes clusters extensively. Cloudcasa
 provides backup and restore functionality for managed and on-premise kubernetes 
 cluster. Cloudcasa-charm provides the same functionality for charmed kubernetes 
 cluster. When you apply Cloudcasa-charm, it spins up an kubeagent in your charmed 
-kubenetes cluster and the kubeagent makes a connection with the SAAS version of
+kubernetes cluster and the kubeagent makes a connection with the SAAS version of
 Cloudcasa.
 
 ## Testing
