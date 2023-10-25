@@ -13,6 +13,7 @@ from charm import CloudcasaCharm
 
 # from unittest.mock import Mock
 
+
 class TestCharm(unittest.TestCase):
     def setUp(self):
         self.clusterid = "6qw77af945675b1327d0bc5ee"
