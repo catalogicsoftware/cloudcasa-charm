@@ -2,16 +2,17 @@
 # Copyright 2022 catalogicsoftware
 
 import logging
-from ops.main import main
-from ops.model import ActiveStatus, BlockedStatus
 import traceback
+
 from lightkube import Client, codecs
-from lightkube.resources.core_v1 import Pod, Namespace, ServiceAccount
 from lightkube.core.exceptions import ApiError
-# from lightkube.models.meta_v1 import ObjectMeta
 from lightkube.resources.apps_v1 import Deployment
+from lightkube.resources.core_v1 import Pod, Namespace, ServiceAccount
+# from lightkube.models.meta_v1 import ObjectMeta
 from lightkube.resources.rbac_authorization_v1 import ClusterRoleBinding
 from ops.charm import CharmBase, WorkloadEvent
+from ops.main import main
+from ops.model import ActiveStatus, BlockedStatus
 
 logger = logging.getLogger(__name__)
 TEMPLATE_DIR = "src/templates/"
