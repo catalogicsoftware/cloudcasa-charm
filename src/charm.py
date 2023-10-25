@@ -16,6 +16,7 @@ from ops.charm import CharmBase, WorkloadEvent
 logger = logging.getLogger(__name__)
 TEMPLATE_DIR = "src/templates/"
 
+
 class CloudcasaCharm(CharmBase):
     """Charm the service."""
 

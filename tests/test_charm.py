@@ -32,4 +32,3 @@ class TestCharm(unittest.TestCase):
         # Test with not install.
         self.harness.charm._on_install("mock_event")
         _create_kubernetes_resources.assert_called_once()
-
