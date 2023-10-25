@@ -5,11 +5,13 @@
 
 import unittest
 from unittest.mock import patch
-# from unittest.mock import Mock
 
-from charm import CloudcasaCharm
 # from ops.model import ActiveStatus
 from ops.testing import Harness
+
+from charm import CloudcasaCharm
+
+# from unittest.mock import Mock
 
 
 class TestCharm(unittest.TestCase):
@@ -32,4 +34,3 @@ class TestCharm(unittest.TestCase):
         # Test with not install.
         self.harness.charm._on_install("mock_event")
         _create_kubernetes_resources.assert_called_once()
-
