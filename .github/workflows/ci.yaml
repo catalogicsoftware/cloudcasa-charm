@@ -11,7 +11,7 @@ jobs:
       - name: Install dependencies
         run: python3 -m pip install tox
       - name: Run linters
-        run: tox -e lint -- --ignore=E501,D102,D101
+        run: tox -e lint --ignore=E501,D102,D101
   integration-test-microk8s:
     name: Integration tests (microk8s)
     runs-on: ubuntu-latest
