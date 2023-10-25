@@ -8,7 +8,7 @@ import traceback
 from lightkube import Client, codecs
 from lightkube.resources.core_v1 import Pod, Namespace, ServiceAccount
 from lightkube.core.exceptions import ApiError
-#from lightkube.models.meta_v1 import ObjectMeta
+# from lightkube.models.meta_v1 import ObjectMeta
 from lightkube.resources.apps_v1 import Deployment
 from lightkube.resources.rbac_authorization_v1 import ClusterRoleBinding
 from ops.charm import CharmBase, WorkloadEvent
@@ -17,8 +17,9 @@ logger = logging.getLogger(__name__)
 TEMPLATE_DIR = "src/templates/"
 
 class CloudcasaCharm(CharmBase):
-    
     """Charm the service."""
+
+
     def __init__(self, *args):
         super().__init__(*args)
         self.framework.observe(self.on.install, self._on_install)
@@ -73,10 +74,10 @@ class CloudcasaCharm(CharmBase):
         try:
             client.delete(Namespace, name="cloudcasa-io")
         except Exception:
-            pass         
+            pass
 
-        self.unit.status = ActiveStatus()       
-        
+        self.unit.status = ActiveStatus()
+ 
     def _create_kubernetes_resources(self):
         client = Client()
         path = TEMPLATE_DIR + "cluster-register.yaml"
@@ -106,7 +107,7 @@ class CloudcasaCharm(CharmBase):
                 pass
             except Exception:
                 cloudcasa_sa = None
-                logger.info("Issue seen in fetching ServiceAccount information")  
+                logger.info("Issue seen in fetching ServiceAccount information")
 
             try:
                 cloudcasa_crb = client.get(ClusterRoleBinding, name="cloudcasa-io")
@@ -117,28 +118,28 @@ class CloudcasaCharm(CharmBase):
                 logger.info("Issue seen in fetching ClusterRoleBinding information")
 
             for obj in codecs.load_all_yaml(f):
-                if obj.kind == "Namespace":     
+                if obj.kind == "Namespace":
                     if not cloudcasa_namespace:
                         logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
                         client.create(obj)
                     else:
                         logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
 
-                if obj.kind == "ServiceAccount":     
+                if obj.kind == "ServiceAccount":
                     if not cloudcasa_sa:
                         logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
                         client.create(obj)
                     else:
                         logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
 
-                if obj.kind == "ClusterRoleBinding": 
+                if obj.kind == "ClusterRoleBinding":
                     if not cloudcasa_crb:
                         logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
                         client.create(obj)
                     else:
                         logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
 
-                if obj.kind == "Deployment":     
+                if obj.kind == "Deployment":
                     if not cloudcasa_deployment:
                         logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
                         client.create(obj)
