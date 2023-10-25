@@ -18,7 +18,7 @@ TEMPLATE_DIR = "src/templates/"
 
 
 class CloudcasaCharm(CharmBase):
-    """Charm the service."""
+"""Charm the service."""
 
 
     def __init__(self, *args):
@@ -78,7 +78,7 @@ class CloudcasaCharm(CharmBase):
             pass
 
         self.unit.status = ActiveStatus()
- 
+
     def _create_kubernetes_resources(self):
         client = Client()
         path = TEMPLATE_DIR + "cluster-register.yaml"
