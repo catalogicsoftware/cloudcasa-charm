@@ -18,7 +18,7 @@ TEMPLATE_DIR = "src/templates/"
 
 
 class CloudcasaCharm(CharmBase):
-"""Charm the service."""
+    """Charm the service."""
 
 
     def __init__(self, *args):
