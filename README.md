@@ -2,9 +2,9 @@
 
 ## Description
 
-**CloudCasa** is a powerful and easy-to-use backup service for protecting Kubernetes, cloud databases, and cloud native applications. As a SaaS solution, CloudCasa eliminates the complexity of managing traditional backup infrastructure, while providing the same level of applications-consistent data protection and disaster recovery capabilities that more traditional backup solutions provide for server-based applications. CloudCasa’s rich feature set also simplifies disaster recovery and data migration. Finally, CloudCasa helps you take cyber resilience to the next level by providing vulnerability scanning alongside traditional data protection services. 
+**CloudCasa** is a powerful and easy-to-use backup service for protecting Kubernetes, cloud databases, and cloud native applications. As a SaaS solution, CloudCasa eliminates the complexity of managing traditional backup infrastructure, while providing the same level of applications-consistent data protection and disaster recovery capabilities that more traditional backup solutions provide for server-based applications. CloudCasa’s rich feature set simplifies disaster recovery and data migration. Its compatibility with Velero allows users to manage their existing Velero installations centrally, at scale, without having to modify their existing configuration. Finally, CloudCasa helps you take cyber resilience to the next level by providing vulnerability scanning alongside traditional data protection services.
 
-A free service plan is available that allows user to protect an unlimited number of Kubernetes clusters and worker nodes using local snapshots. 
+A free service plan is available that allows user to protect an unlimited number of Kubernetes clusters and worker nodes using local snapshots. Velero users can manage Velero n clusters with a combined total of up to 15 worker nodes for free.
 
 This repository contains a Charm Operator for deploying **CloudCasa** agent in a Charmed Kubernetes cluster.
 
@@ -18,7 +18,7 @@ This repository contains a Charm Operator for deploying **CloudCasa** agent in a
 2. Register your Charmed Kubernetes cluster
 3. Fetch the cluster ID and keep it for future use.
 
-## Install steps
+## Installation steps
 
 1. Create a dedicated model in juju
     ```bash
