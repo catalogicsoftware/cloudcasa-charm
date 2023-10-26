@@ -1,0 +1,8 @@
+# Copyright 2022 Catalogic Software
+# See LICENSE file for licensing details.
+
+options:
+  clusterid:
+    default: ""
+    description: clusterid used by custer to get registered
+    type: string
