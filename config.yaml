@@ -4,5 +4,5 @@
 options:
   clusterid:
     default: ""
-    description: clusterid used by custer to get registered
+    description: ID provided by CloudCasa service when registering cluster
     type: string
