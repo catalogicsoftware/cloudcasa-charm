@@ -1,10 +1,10 @@
 # Test Environment Setup
 
-This guide will show you how to create a local installation of **Charmed Kubernetes**.
+This guide will show you how to create an environment for local installation of the CloudCasa charm for testing.
 
 ## Requirements
 
-First of all, let's see what you need to setup the distribution:
+First of all, let's see what you need to set up the distribution:
 
 * Ubuntu 20.04 OS image
 * 8 GB RAM
@@ -12,7 +12,7 @@ First of all, let's see what you need to setup the distribution:
 
 ### LXC setup
 
-**Charmed Kubernetes** uses `lxc` as kubernetes nodes.
+The test environment depends on `lxc`.
 
 First of all, let's install `lxc` using `snap`:
 
@@ -70,9 +70,9 @@ Juju creates a default model, but it is useful to create a new model for each pr
 juju add-model cloudcasa-system
 ```
 
-### Charmed Kubernetes setup
+### Charm setup
 
-All that remains is to deploy **Charmed Kubernetes**. A simple install can be achieved with one command:
+All that remains is to deploy the CloudCasa charm. A simple install can be achieved with one command:
 
 ```bash
 juju deploy --trust cloudcasa
@@ -86,7 +86,7 @@ watch -c juju status --color
 
 ## Troubleshooting
 
-### Kubelet fail to start with errors related to inotify_add_watch
+### Kubelet fails to start with errors related to inotify_add_watch
 
 For example, `systemctl status snap.kubelet.daemon.service` may report the following error:
 
@@ -96,7 +96,7 @@ kubelet.go:1414] "Failed to start cAdvisor" err="inotify_add_watch /sys/fs/cgrou
 
 This problem usually is related to the kernel parameters, `fs.inotify.max_user_instances` and `fs.inotify.max_user_watches`.
 
-At first, you should increase their values on the machine that is hosting the **Charmed Kubernetes** (`v1.23.4`) installation:
+At first, you should increase their values on the machine that is hosting the test environment:
 
 ```bash
 sysctl -w fs.inotify.max_user_instances=8192
