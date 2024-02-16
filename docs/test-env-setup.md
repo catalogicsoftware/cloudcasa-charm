@@ -10,11 +10,11 @@ First of all, let's see what you need to set up the distribution:
 * 8 GB RAM
 * 50 GB additional HDD
 
-### LXC setup
+### LXD setup
 
-The test environment depends on `lxc`.
+The test environment depends on `lxd`.
 
-First of all, let's install `lxc` using `snap`:
+First of all, let's install `lxd` using `snap`:
 
 ```bash
 sudo apt update
@@ -30,15 +30,20 @@ Run the `lxd` initialization script:
 
 Answer the questions in this way:
 
-* Would you like to use LXD clustering? (yes/no) [default=no]: `no`
-* Do you want to configure a new storage pool? (yes/no) [default=yes]: `yes`
-* Would you like to connect to a MAAS server? (yes/no) [default=no]: `no`
-* Would you like to create a new local network bridge? (yes/no) [default=yes]: `yes`
-* What should the new bridge be called? [default=lxdbr0]: `lxdbr0`
-* What IPv4 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]: `auto`
+* Would you like to use LXD clustering? (yes/no) [default=no]:
+* Do you want to configure a new storage pool? (yes/no) [default=yes]:
+* Name of the new storage pool [default=default]:
+* Name of the storage backend to use (dir, lvm, zfs, btrfs, ceph, cephobject) [default=zfs]:
+* Create a new ZFS pool? (yes/no) [default=yes]:
+* Would you like to use an existing empty block device (e.g. a disk or partition)? (yes/no) [default=no]:
+* Size in GiB of the new loop device (1GiB minimum) [default=30GiB]:
+* Would you like to connect to a MAAS server? (yes/no) [default=no]:
+* Would you like to create a new local network bridge? (yes/no) [default=yes]:
+* What should the new bridge be called? [default=lxdbr0]:
+* What IPv4 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]:
 * What IPv6 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]: `none`
-* Would you like the LXD server to be available over the network? (yes/no) [default=no]: `no`
-* Would you like stale cached images to be updated automatically? (yes/no) [default=yes]: `yes`
+* Would you like the LXD server to be available over the network? (yes/no) [default=no]:
+* Would you like stale cached images to be updated automatically? (yes/no) [default=yes]:
 * Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]: `yes`
 
 Disable IPv6
@@ -64,17 +69,14 @@ To begin, you need to create a Juju controller for this cloud:
 juju bootstrap localhost
 ```
 
-Juju creates a default model, but it is useful to create a new model for each project:
-
-```bash
-juju add-model cloudcasa-system
-```
+If you are creating a development environment, you can jump to the development environment setup document now.
 
 ### Charm setup
 
 All that remains is to deploy the CloudCasa charm. A simple install can be achieved with one command:
 
 ```bash
+juju add-model cloudcasa-system
 juju deploy --trust cloudcasa
 ```
 
