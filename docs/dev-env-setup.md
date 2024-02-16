@@ -39,12 +39,15 @@ cd /<path-to-project>/cloudcasa-charm
 charmcraft pack
 ```
 
-You will now have the **charm** inside the project directory, ready to be deployed with **juju**.
+You will now have the **charm** inside the project directory, with a file name such as cloudcasa_ubuntu-20.04-amd64.charm, ready to be deployed with **juju**.
 Obtain a cluster ID from CloudCasa and use the following commands.
 
 ```bash
 juju add-model cloudcasa-system
-juju deploy --trust ./cloudcasa_ubuntu-20.04-amd64.charm
+juju deploy --trust ./<charm-file-name>.charm
 juju config cloudcasa clusterid=<Registered CloudCasa Cluster Id>
 ```
+
+You can examine the debug log using the ```juju debug-log``` command.
+
 Happy coding!
