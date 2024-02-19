@@ -6,7 +6,7 @@ We suggest creating a VM running Ubuntu 22.04 with the latest updates where you 
 You will need your favorite editor, git, Python 3 and tox for development, charmcraft and LXD for building/packaging, and juju and Kubernetes for testing.
 
 We typically create an x86 VM with 8GB of RAM, 4 vCPUs, and 160 GB of disk for development, but a smaller configuration will likely work as well.
-You should log in as a non-root user with sudo capabilities when executing the commands below. Replace <user> with the non-root user you are logged in as.
+You should log in as a non-root user with sudo capabilities when executing the commands below. Replace ```<user>``` with the non-root user you are logged in as.
 
 First, make sure git, Python, pip, and tox are installed.
 
@@ -23,7 +23,7 @@ sudo lxd init --auto
 sudo usermod -a -G lxd <user>
 ```
 
-Than install Charmcraft.
+Then install Charmcraft.
 
 ```bash
 sudo snap install charmcraft --classic
