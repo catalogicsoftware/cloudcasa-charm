@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup operator environment
-        uses: charmed-kubernetes/actions-operator@v1.1
+        uses: charmed-kubernetes/actions-operator@v1
         with:
           provider: microk8s
       - name: Run integration tests
