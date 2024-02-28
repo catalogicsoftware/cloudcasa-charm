@@ -101,5 +101,12 @@ You can examine the debug log using the ```juju debug-log``` command.
 See the [test environment docs](https://github.com/catalogicsoftware/cloudcasa-charm/blob/master/docs/test-env-setup.md)
 for more details.
 
+To remove the agent and charm use the commands:
+
+```bash
+juju remove-application cloudcasa
+juju destroy-model cloudcasa-system
+```
+
 Happy coding!
 
