@@ -2,6 +2,7 @@
 # See LICENSE file for licensing details.
 #
 # Learn more about testing at: https://juju.is/docs/sdk/testing
+"""This module provides unit testing for the CloudCasa charm."""
 
 import unittest
 from unittest.mock import patch
@@ -15,13 +16,17 @@ from charm import CloudcasaCharm
 
 
 class TestCharm(unittest.TestCase):
+    """Test class for the CloudCasa charm."""
+
     def setUp(self):
+        """Set up test."""
         self.clusterid = "6qw77af945675b1327d0bc5ee"
         self.harness = Harness(CloudcasaCharm)
         self.addCleanup(self.harness.cleanup)
         self.harness.begin()
 
     def test_clusterid(self):
+        """Test with empty and dummy cluster IDs."""
         # Test with empty clusterid.
         self.assertEqual(self.harness.charm.config["clusterid"], "")
         self.harness.disable_hooks()
@@ -31,6 +36,6 @@ class TestCharm(unittest.TestCase):
 
     @patch("charm.CloudcasaCharm._create_kubernetes_resources")
     def test_on_install(self, _create_kubernetes_resources):
-        # Test with not install.
+        """Test with not install."""
         self.harness.charm._on_install("mock_event")
         _create_kubernetes_resources.assert_called_once()

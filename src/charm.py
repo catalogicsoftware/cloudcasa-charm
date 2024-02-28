@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright 2022 catalogicsoftware
+"""Charm the CloudCasa agent."""
 
 import logging
 import traceback
@@ -19,13 +20,15 @@ TEMPLATE_DIR = "src/templates/"
 
 
 class CloudcasaCharm(CharmBase):
-    """Charm the service."""
-
+    """Charm the CloudCasa agent."""
 
     def __init__(self, *args):
+        """Initialize and set up framework event handling."""
         super().__init__(*args)
         self.framework.observe(self.on.install, self._on_install)
-        self.framework.observe(self.on.cloudcasa_pebble_ready, self._on_cloudcasa_pebble_ready)
+        self.framework.observe(
+            self.on.cloudcasa_pebble_ready, self._on_cloudcasa_pebble_ready
+        )
         self.framework.observe(self.on.config_changed, self._on_config_changed)
         self.framework.observe(self.on.stop, self._on_stop)
 
@@ -43,9 +46,7 @@ class CloudcasaCharm(CharmBase):
                     "summary": "cloudcasa",
                     "command": "ls",
                     "startup": "enabled",
-                    "environment": {
-                        "clusterid": self.config["clusterid"]
-                    },
+                    "environment": {"clusterid": self.config["clusterid"]},
                 }
             },
         }
@@ -54,14 +55,63 @@ class CloudcasaCharm(CharmBase):
 
     def _on_config_changed(self, event):
         client = Client()
-        cloudcasa_pod = client.get(Pod, name="cloudcasa-0", namespace="cloudcasa-system")
+        cloudcasa_pod = client.get(
+            Pod, name="cloudcasa-0", namespace="cloudcasa-system"
+        )
         for con in cloudcasa_pod.spec.containers:
             if con.name == "cloudcasa":
                 kagentimage = con.image
         clusterid = self.config["clusterid"]
-        patch = {"spec": {"template": {"spec": {"containers": [{"image": kagentimage, "args": ["/usr/local/bin/kubeagentmanager", "--server_addr", "agent.cloudcasa.io:443", "--tls", "true"], "imagePullPolicy": "Always", "name": "kubeagentmanager", "resources": {"requests": {"memory": "64Mi", "cpu": "250m"}, "limits": {"memory": "128Mi", "cpu": "500m"}}, "volumeMounts": [{"mountPath": "/scratch", "name": "scratch"}], "env": [{"name": "MY_POD_NAME", "valueFrom": {"fieldRef": {"fieldPath": "metadata.name"}}}, {"name": "AMDS_CLUSTER_ID", "value": clusterid}, {"name": "KUBEMOVER_IMAGE", "value": kagentimage}, {"name": "DEPLOYMENT_PLATFORM", "value": "charmed"}]}], "restartPolicy": "Always", "serviceAccountName": "cloudcasa-io", "volumes": [{"emptyDir": {}, "name": "scratch"}]}}}}
+        patch = {
+            "spec": {
+                "template": {
+                    "spec": {
+                        "containers": [
+                            {
+                                "image": kagentimage,
+                                "args": [
+                                    "/usr/local/bin/kubeagentmanager",
+                                    "--server_addr",
+                                    "agent.cloudcasa.io:443",
+                                    "--tls",
+                                    "true",
+                                ],
+                                "imagePullPolicy": "Always",
+                                "name": "kubeagentmanager",
+                                "resources": {
+                                    "requests": {"memory": "64Mi", "cpu": "250m"},
+                                    "limits": {"memory": "128Mi", "cpu": "500m"},
+                                },
+                                "volumeMounts": [
+                                    {"mountPath": "/scratch", "name": "scratch"}
+                                ],
+                                "env": [
+                                    {
+                                        "name": "MY_POD_NAME",
+                                        "valueFrom": {
+                                            "fieldRef": {"fieldPath": "metadata.name"}
+                                        },
+                                    },
+                                    {"name": "AMDS_CLUSTER_ID", "value": clusterid},
+                                    {"name": "KUBEMOVER_IMAGE", "value": kagentimage},
+                                    {"name": "DEPLOYMENT_PLATFORM", "value": "charmed"},
+                                ],
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "serviceAccountName": "cloudcasa-io",
+                        "volumes": [{"emptyDir": {}, "name": "scratch"}],
+                    }
+                }
+            }
+        }
         try:
-            client.patch(Deployment, name='cloudcasa-kubeagent-manager', namespace='cloudcasa-io', obj=patch)
+            client.patch(
+                Deployment,
+                name="cloudcasa-kubeagent-manager",
+                namespace="cloudcasa-io",
+                obj=patch,
+            )
             logging.info("cluster id patched with kubeagent")
         except Exception:
             pass
@@ -88,7 +138,11 @@ class CloudcasaCharm(CharmBase):
             logging.info("Collecting all resource manifests")
 
             try:
-                cloudcasa_deployment = client.get(Deployment, name="cloudcasa-kubeagent-manager", namespace="cloudcasa-io")
+                cloudcasa_deployment = client.get(
+                    Deployment,
+                    name="cloudcasa-kubeagent-manager",
+                    namespace="cloudcasa-io",
+                )
             except FileNotFoundError:
                 pass
             except Exception:
@@ -104,7 +158,9 @@ class CloudcasaCharm(CharmBase):
                 logger.info("Issue seen in fetching Namespace information")
 
             try:
-                cloudcasa_sa = client.get(ServiceAccount, name="cloudcasa-io", namespace="cloudcasa-io")
+                cloudcasa_sa = client.get(
+                    ServiceAccount, name="cloudcasa-io", namespace="cloudcasa-io"
+                )
             except FileNotFoundError:
                 pass
             except Exception:
@@ -122,31 +178,63 @@ class CloudcasaCharm(CharmBase):
             for obj in codecs.load_all_yaml(f):
                 if obj.kind == "Namespace":
                     if not cloudcasa_namespace:
-                        logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Creating resource %s of kind %s from manifest.",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
                         client.create(obj)
                     else:
-                        logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Resource %s of kind %s already present",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
 
                 if obj.kind == "ServiceAccount":
                     if not cloudcasa_sa:
-                        logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Creating resource %s of kind %s from manifest.",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
                         client.create(obj)
                     else:
-                        logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Resource %s of kind %s already present",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
 
                 if obj.kind == "ClusterRoleBinding":
                     if not cloudcasa_crb:
-                        logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Creating resource %s of kind %s from manifest.",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
                         client.create(obj)
                     else:
-                        logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Resource %s of kind %s already present",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
 
                 if obj.kind == "Deployment":
                     if not cloudcasa_deployment:
-                        logging.info("Creating resource %s of kind %s from manifest.", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Creating resource %s of kind %s from manifest.",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
                         client.create(obj)
                     else:
-                        logging.info("Resource %s of kind %s already present", obj.metadata.name, obj.kind)
+                        logging.info(
+                            "Resource %s of kind %s already present",
+                            obj.metadata.name,
+                            obj.kind,
+                        )
 
     def _on_install(self, event) -> None:
         try:
@@ -157,6 +245,7 @@ class CloudcasaCharm(CharmBase):
         except ApiError:
             logger.error(traceback.format_exc())
             self.unit.status = BlockedStatus("Creation failed.")
+
 
 if __name__ == "__main__":
     main(CloudcasaCharm)
