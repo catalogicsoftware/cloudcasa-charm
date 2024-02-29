@@ -1,7 +1,35 @@
-# Learn more about charmcraft.yaml configuration at:
-# https://juju.is/docs/sdk/charmcraft-config
+# Copyright 2024 Catalogic Software
+# See LICENSE file for licensing details.
+# For docs see: https://juju.is/docs/sdk/charmcraft-config
 
 type: "charm"
+name: cloudcasa
+title: CloudCasa
+summary: A charm to install and run the CloudCasa agent
+description: CloudCasa is a powerful and easy-to-use backup service for protecting Kubernetes, cloud databases, and cloud native applications.
+links:
+  contact: CloudCasa support support@cloudcasa.io
+  website: https://cloudcasa.io
+  source: https://github.com/catalogicsoftware/cloudcasa-charm
+  issues: https://github.com/catalogicsoftware/cloudcasa-charm/issues
+  documentation: https://discourse.charmhub.io/t/cloudcasa-docs-index/6926
+containers:
+  cloudcasa:
+    resource: cloudcasa-image
+resources:
+ cloudcasa-image:
+   type: oci-image
+   description: OCI image for cloudcasa-image
+   upstream-source: docker.io/catalogicsoftware/amds-kagent:latest
+assumes:
+  - juju >= 2.9.23
+  - k8s-api
+config:
+  options:
+    clusterid:
+      default: ""
+      description: ID provided by CloudCasa service when registering cluster
+      type: string
 bases:
   - build-on:
     - name: "ubuntu"
