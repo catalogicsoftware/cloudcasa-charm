@@ -1,12 +1,12 @@
-## CloudCasa
+# CloudCasa
 
 ## Description
 
 **CloudCasa** is a powerful and easy-to-use backup service for protecting Kubernetes, cloud databases, and cloud native applications. As a SaaS solution, CloudCasa eliminates the complexity of managing traditional backup infrastructure, while providing the same level of applications-consistent data protection and disaster recovery capabilities that more traditional backup solutions provide for server-based applications. CloudCasa’s rich feature set simplifies disaster recovery and data migration. Its compatibility with Velero allows users to manage their existing Velero installations centrally, at scale, without having to modify their existing configuration. Finally, CloudCasa helps you take cyber resilience to the next level by providing vulnerability scanning alongside traditional data protection services.
 
-A free service plan is available that allows user to protect Kubernetes clusters with up to 10 worker nodes.
+A free service plan is available that allows users to protect Kubernetes clusters with up to 10 worker nodes.
 
-This repository contains a Charmed Operator which deploys the **CloudCasa** agent in a Charmed Kubernetes cluster.
+This repository contains a Charmed Operator which deploys the **CloudCasa** agent in a Kubernetes cluster.
 
 ## Requirements
 1. CloudCasa requires Kubernetes 1.17 or higher. 
@@ -39,4 +39,4 @@ If there is an issue with the CloudCasa charm, it can be useful to inspect the J
 
 ## Documentation
 
-Read the official CloudCasa documentation here: [cloudcasa.io](https://docs.cloudcasa.io/help)
+See the official CloudCasa documentation here: [docs.cloudcasa.io](https://docs.cloudcasa.io/help)
