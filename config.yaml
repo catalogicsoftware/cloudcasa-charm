@@ -1,8 +1,0 @@
-# Copyright 2022 Catalogic Software
-# See LICENSE file for licensing details.
-
-options:
-  clusterid:
-    default: ""
-    description: ID provided by CloudCasa service when registering cluster
-    type: string
