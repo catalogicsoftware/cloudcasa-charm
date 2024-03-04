@@ -19,11 +19,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup operator environment
-        uses: charmed-kubernetes/actions-operator@main
+        uses: charmed-kubernetes/actions-operator@1.0.0
         with:
           provider: microk8s
-          # this creates the right model for our charm.
-          bootstrap-options: "--default-model=cloudcasa-system"
       - name: Run integration tests
         # set a predictable model name so it can be consumed by charm-logdump-action
         run: tox -e integration -- --model cloudcasa-system
