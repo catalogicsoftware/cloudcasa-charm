@@ -47,7 +47,7 @@ spec:
         app: cloudcasa-kubeagent-manager
     spec:
       containers:
-      - image: catalogicsoftware/amds-kagent:latest
+      - image: catalogicsoftware/amds-kagent:3.1.0-prod
         args: ["/usr/local/bin/kubeagentmanager", "--server_addr", "agent.cloudcasa.io:443", "--tls", "true"]
         imagePullPolicy: Always
         name: kubeagentmanager
@@ -69,7 +69,7 @@ spec:
         - name: AMDS_CLUSTER_ID
           value: CLUSTERID
         - name: KUBEMOVER_IMAGE
-          value: catalogicsoftware/amds-kagent:latest
+          value: catalogicsoftware/amds-kagent:3.1.0-prod
         - name: DEPLOYMENT_PLATFORM
           value: "charmed"
       restartPolicy: Always
